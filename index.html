@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merged Output</title>
+</head>
+<body>
+    <h1>Merged Output</h1>
+    <ul id="merged-output"></ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        socket.on('connect', function() {
+            socket.emit('request_merged_output');
+        });
+        socket.on('merged_output', function(data) {
+            var outputList = document.getElementById('merged-output');
+            var newItem = document.createElement('li');
+            newItem.textContent = data.output;
+            outputList.appendChild(newItem);
+        });
+    </script>
+</body>
+</html>
